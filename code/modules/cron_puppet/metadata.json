@@ -7,9 +7,7 @@
   "source": "git@github.com:scuthbert/4113Puppet.git",
   "project_page": "https://github.com/scuthbert/4113Puppet",
   "issues_url": "https://github.com/scuthbert/4113Puppet",
-  "dependencies": [
-    {"name":"puppetlabs-stdlib","version_requirement":">= 1.0.0"}
-  ],
+  "dependencies": [],
   "data_provider": null
 }
 
