@@ -1,0 +1,13 @@
+{
+  "name": "root-dm_employees",
+  "version": "0.1.0",
+  "author": "Sam Cuthbertson",
+  "summary": "Ensure user data exists for all DM Employees.",
+  "license": "Apache-2.0",
+  "source": "https://github.com/scuthbert/4113Puppet",
+  "project_page": "https://github.com/scuthbert/4113Puppet",
+  "issues_url": "https://github.com/scuthbert/4113Puppet/issues",
+  "dependencies": [],
+  "data_provider": null
+}
+
