@@ -16,7 +16,6 @@ node 'machinec' {
 	    ]
     }
 
-    class { 'sudo': }
     sudo::conf { 'mpalmer-vsftpd':
         priority => 60,
     	content => 'mpalmer ALL=(ALL) /usr/bin/systemctl restart vsftpd.service'
@@ -36,7 +35,6 @@ node 'machineb' {
 	    ]
     }
     
-    class { 'sudo': }
     sudo::conf { 'web-httpd':
         priority => 60,
     	content => '%web ALL=(ALL) /usr/bin/systemctl restart httpd.service'
