@@ -165,6 +165,6 @@ class managers {
     comment    => "Michael Scott",
     uid        => "1010",
     password   => '$6$EWPMW6IuuHO598rs$r0R2206NAyEPgpwIxBkBikJ1vzUrABVwUst385mKLJDaYfbpQpkMMTX8r7S7AJ3N9bRAwB8f8zpO8.nfwANaH.',
-    groups     => [managers, wheel],
+    groups     => [managers],
   }
 }

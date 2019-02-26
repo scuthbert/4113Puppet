@@ -18,6 +18,7 @@ node 'machinec' {
 	    'wheel', 
         'root',
         'mpalmer',
+        'mscott',
 	    ]
     }
     class { 'sudo': }
@@ -40,6 +41,7 @@ node 'machineb' {
 	    'wheel', 
         'root',
         'web',
+        'mscott',
 	    ]
     }
     
@@ -63,6 +65,7 @@ node 'machinea', 'machined' {
 	allowed_users => [
 	    'wheel', 
         'root',
+        'mscott',
 	    ]
     }
 
