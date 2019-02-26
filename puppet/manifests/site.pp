@@ -24,7 +24,7 @@ node 'machineac' {
     sudo::conf { 'mpalmer-vsftpd':
         priority => 60,
     	content => 'mpalmer ALL=/usr/bin/systemctl restart vsftpd.service'
-    
+   } 
 }
 
 node 'machineb' {
@@ -57,3 +57,4 @@ node 'machinea', 'machined' {
 	    ]
     }
 }
+
