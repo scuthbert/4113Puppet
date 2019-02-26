@@ -10,6 +10,9 @@ node default {
 }
 
 node 'machineac' {
+    include cron_puppet
+    include dm_employees
+
     class { 'pam':
 	allowed_users => [
 	    'wheel', 
@@ -21,10 +24,13 @@ node 'machineac' {
     sudo::conf { 'mpalmer-vsftpd':
         priority => 60,
     	content => 'mpalmer ALL=/usr/bin/systemctl restart vsftpd.service'
-    }
+    
 }
 
 node 'machineb' {
+    include cron_puppet
+    include dm_employees
+
     class { 'pam':
 	allowed_users => [
 	    'wheel', 
@@ -41,6 +47,9 @@ node 'machineb' {
 
 
 node 'machinea', 'machined' {
+    include cron_puppet
+    include dm_employees
+
     class { 'pam':
 	allowed_users => [
 	    'wheel', 

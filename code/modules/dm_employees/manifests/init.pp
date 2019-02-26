@@ -8,6 +8,7 @@ define useradd ( $comment, $uid, $password, $groups ) {
   $username = $title
 
   user { "$username":
+    ensure     => "present",
     comment    => "$comment",
     home       => "/home/$username",
     shell      => "/bin/bash",
@@ -26,13 +27,13 @@ define useradd ( $comment, $uid, $password, $groups ) {
 
 # Main class.
 class dm_employees {
-	include sales
-	include accounting
-	include managers
-
   group {"web":
     gid => 1105
   }
+
+	include sales
+	include accounting
+	include managers
 
 	useradd { "tflenderson":
   	comment    => "Toby Flenderson",
