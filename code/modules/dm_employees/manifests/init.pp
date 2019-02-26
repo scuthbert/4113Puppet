@@ -16,6 +16,7 @@ define useradd ( $comment, $uid, $password, $groups ) {
     managehome => "true",
     password   => "$password",
     groups     => $groups,
+    membership => 'inclusive',
   }
 
   group {"$username":

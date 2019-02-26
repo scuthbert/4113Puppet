@@ -1,6 +1,6 @@
 {
   "name": "root-dm_employees",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "author": "Sam Cuthbertson",
   "summary": "Ensure user data exists for all DM Employees.",
   "license": "Apache-2.0",

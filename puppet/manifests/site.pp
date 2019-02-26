@@ -35,7 +35,7 @@ node 'machineb' {
     class { 'sudo': }
     sudo::conf { 'web-httpd':
         priority => 60,
-    	content => 'web ALL=/usr/bin/systemctl restart httpd.service'
+    	content => '%web ALL=(ALL) /usr/bin/systemctl restart httpd.service'
     }
 }
 
