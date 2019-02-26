@@ -29,6 +29,10 @@ class dm_employees {
 	include accounting
 	include managers
 
+  group {"web":
+    gid => 1105
+  }
+
 	useradd { "tflenderson":
   	comment    => "Toby Flenderson",
     uid        => "1011",
@@ -61,14 +65,14 @@ class dm_employees {
   	comment    => "Kelly Kapoor",
     uid        => "1015",
     password   => '$6$EWPMW6IuuHO598rs$r0R2206NAyEPgpwIxBkBikJ1vzUrABVwUst385mKLJDaYfbpQpkMMTX8r7S7AJ3N9bRAwB8f8zpO8.nfwANaH.',
-    groups     => [],
+    groups     => [web],
   }
 	
 	useradd { "pbeesly":
   	comment    => "Pam Beesly",
     uid        => "1016",
     password   => '$6$EWPMW6IuuHO598rs$r0R2206NAyEPgpwIxBkBikJ1vzUrABVwUst385mKLJDaYfbpQpkMMTX8r7S7AJ3N9bRAwB8f8zpO8.nfwANaH.',
-    groups     => [],
+    groups     => [web],
   }
 
 	useradd { "scuthbertson":
@@ -89,7 +93,7 @@ class sales {
   	comment    => "Andy Bernard",
     uid        => "1002",
     password   => '$6$EWPMW6IuuHO598rs$r0R2206NAyEPgpwIxBkBikJ1vzUrABVwUst385mKLJDaYfbpQpkMMTX8r7S7AJ3N9bRAwB8f8zpO8.nfwANaH.',
-    groups     => [sales],
+    groups     => [sales, web],
   }
 
 	useradd { "shudson":
@@ -145,7 +149,7 @@ class managers {
   	comment    => "Dwight Schrute",
     uid        => "1008",
     password   => '$6$EWPMW6IuuHO598rs$r0R2206NAyEPgpwIxBkBikJ1vzUrABVwUst385mKLJDaYfbpQpkMMTX8r7S7AJ3N9bRAwB8f8zpO8.nfwANaH.',
-    groups     => [managers],
+    groups     => [managers, wheel],
   }
 
 	useradd { "jhalpert":
@@ -159,6 +163,6 @@ class managers {
     comment    => "Michael Scott",
     uid        => "1010",
     password   => '$6$EWPMW6IuuHO598rs$r0R2206NAyEPgpwIxBkBikJ1vzUrABVwUst385mKLJDaYfbpQpkMMTX8r7S7AJ3N9bRAwB8f8zpO8.nfwANaH.',
-    groups     => [managers],
+    groups     => [managers, wheel],
   }
 }

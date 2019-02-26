@@ -12,4 +12,6 @@ git fetch
 git checkout origin/master -ft
 
 # Run Puppet initially to set up the auto-deploy mechanism
+/opt/puppetlabs/bin/puppet module install saz-sudo --version 6.0.0
+/opt/puppetlabs/bin/puppet module install huit-pam_access --version 0.1.0
 /opt/puppetlabs/bin/puppet apply /etc/puppetlabs/puppet/manifests/site.pp
