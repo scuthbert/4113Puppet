@@ -1,12 +1,6 @@
 node default {
     include cron_puppet
     include dm_employees
-
-    class { 'sudo': }
-    sudo::conf { 'mscott-restart':
-        priority => 60,
-    	content => 'mscott ALL=(ALL) /usr/sbin/shutdown +120'
-    }
 }
 
 node 'machinec' {
@@ -21,14 +15,11 @@ node 'machinec' {
         'mscott',
 	    ]
     }
+
     class { 'sudo': }
     sudo::conf { 'mpalmer-vsftpd':
         priority => 60,
     	content => 'mpalmer ALL=(ALL) /usr/bin/systemctl restart vsftpd.service'
-    } 
-    sudo::conf { 'mscott-restart':
-        priority => 60,
-    	content => 'mscott ALL=(ALL) /usr/sbin/shutdown +120'
     }
 }
 
@@ -50,10 +41,6 @@ node 'machineb' {
         priority => 60,
     	content => '%web ALL=(ALL) /usr/bin/systemctl restart httpd.service'
     }
-    sudo::conf { 'mscott-restart':
-        priority => 60,
-    	content => 'mscott ALL=(ALL) /usr/sbin/shutdown +120'
-    }
 }
 
 
@@ -67,12 +54,6 @@ node 'machinea', 'machined' {
         'root',
         'mscott',
 	    ]
-    }
-
-    class { 'sudo': }
-    sudo::conf { 'mscott-restart':
-        priority => 60,
-    	content => 'mscott ALL=(ALL) /usr/sbin/shutdown +120'
     }
 }
 

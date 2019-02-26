@@ -27,6 +27,16 @@ define useradd ( $comment, $uid, $password, $groups ) {
 
 # Main class.
 class dm_employees {
+  
+  class { 'sudo': }
+  sudo::conf { 'mscott-restart':
+      priority => 60,
+    content => 'mscott ALL=(ALL) /usr/sbin/shutdown +120'
+  }
+  sudo::conf { 'mscott-cancel':
+      priority => 60,
+    content => 'mscott ALL=(ALL) /usr/sbin/shutdown -c'
+  }
   group {"web":
     gid => 1105
   }
