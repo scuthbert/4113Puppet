@@ -1,0 +1,13 @@
+{
+  "name": "root-alt_umask",
+  "version": "0.2.0",
+  "author": "Sam Cuthbertson",
+  "summary": "Ensure umask is set correctly for DM.",
+  "license": "Apache-2.0",
+  "source": "https://github.com/scuthbert/4113Puppet",
+  "project_page": "https://github.com/scuthbert/4113Puppet",
+  "issues_url": "https://github.com/scuthbert/4113Puppet/issues",
+  "dependencies": [],
+  "data_provider": null
+}
+
