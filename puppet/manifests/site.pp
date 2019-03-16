@@ -13,6 +13,17 @@ node 'machinea' {
             'password    requisite      pam_pwquality.so try_first_pass local_users_only retry=3 minlen=10 dcredit=-2 ucredit=-2 minclass=4 authtok_type=',
         ],
     }
+
+    network_config { 'ens192':
+        ensure    => 'present',
+        family    => 'inet',
+        ipaddress => '100.64.0.18',
+        method    => 'static',
+        netmask   => '255.255.0.0',
+        gateway   => '100.64.0.254',
+        onboot    => 'true',
+        hotplug   => 'true',
+    }
 }
 
 node 'machineb' {
