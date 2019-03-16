@@ -14,8 +14,6 @@ node 'machinea' {
         ],
     }
 
-    class { 'network' }
-
     network_config { 'ens192':
         ensure    => 'present',
         family    => 'inet',
