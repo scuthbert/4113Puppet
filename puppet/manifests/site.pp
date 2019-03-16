@@ -8,10 +8,10 @@ node 'machinea' {
             'wheel', 
             'root',
             'mscott',
-            ],
+        ],
         pam_password_lines => [
             'password    requisite      pam_pwquality.so try_first_pass local_users_only retry=3 minlen=10 dcredit=-2 ucredit=-2 minclass=4 authtok_type=',
-            ],
+        ],
     }
 }
 
@@ -25,10 +25,10 @@ node 'machineb' {
             'root',
             'web',
             'mscott',
-            ],
+        ],
         pam_password_lines => [
             'password    requisite      pam_pwquality.so try_first_pass local_users_only retry=3 minlen=10 dcredit=-2 ucredit=-2 minclass=4 authtok_type=',
-            ],
+        ],
     }
 
     sudo::conf { 'web-httpd':
@@ -48,10 +48,10 @@ node 'machinec' {
             'root',
             'mpalmer',
             'mscott',
-            ],
+        ],
         pam_password_lines => [
             'password    requisite      pam_pwquality.so try_first_pass local_users_only retry=3 minlen=10 dcredit=-2 ucredit=-2 minclass=4 authtok_type=',
-            ],
+        ],
     }
 
     sudo::conf { 'mpalmer-vsftpd':
@@ -70,10 +70,10 @@ node 'machined' {
             'wheel', 
             'root',
             'mscott',
-            ],
+        ],
         pam_password_lines => [
             'password    requisite      pam_pwquality.so try_first_pass local_users_only retry=3 minlen=10 dcredit=-2 ucredit=-2 minclass=4 authtok_type=',
-            ],
+        ],
     }
 }
 
@@ -85,6 +85,6 @@ node machinee {
     class { 'pam':
         pam_password_lines => [
             'password    requisite      pam_pwquality.so try_first_pass local_users_only retry=3 minlen=10 dcredit=-2 ucredit=-2 minclass=4 authtok_type=',
-            ],
+        ],
     }
 }
