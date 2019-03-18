@@ -204,3 +204,24 @@ node machinee {
         ],
     }
 }
+
+node machinef {
+    include cron_puppet
+    include dm_employees
+    include alt_umask
+
+    network_config { 'ens192':
+        ensure  => 'present',
+        family  => 'inet',
+        method  => 'dhcp',
+        onboot  => 'true',
+        hotplug => 'true',
+        netmask => '255.255.255.0',
+    }
+
+    class { 'pam':
+        pam_password_lines => [
+            'password    requisite      pam_pwquality.so try_first_pass local_users_only retry=3 minlen=10 dcredit=-2 ucredit=-2 minclass=4 authtok_type=',
+        ],
+    }
+}
