@@ -73,6 +73,7 @@ node 'machineb' {
         method  => 'dhcp',
         onboot  => 'true',
         hotplug => 'true',
+        netmask => '255.255.255.0',
     }
 
     class { 'pam':
