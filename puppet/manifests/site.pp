@@ -51,7 +51,7 @@ node 'machinea' {
         service_ensure => running,
         nameservers  => ['8.8.8.8'],
         ntpservers   => ['us.pool.ntp.org'],
-        interfaces   => ['ens224'],#, 'ens256'],
+        interfaces   => ['ens224', 'ens256'],
     }
 
     dhcp::pool{ 'dundermifflin.com':
@@ -88,6 +88,10 @@ node 'machinea' {
         ip      => '10.21.32.2',
     }
 
+    dhcp::host { 'saddle':
+        mac     => '00:50:56:A0:78:39',
+        ip      => '100.64.18.5',
+    }
 }
 
 node 'machineb' {
@@ -126,6 +130,16 @@ node 'machinec' {
     include dm_employees
     include alt_umask
 
+    network_config { 'ens192':
+        ensure  => 'present',
+        family  => 'inet',
+        method  => 'dhcp',
+        onboot  => 'true',
+        hotplug => 'true',
+        netmask => '255.255.255.0',
+    }
+
+
     class { 'pam':
         allowed_users => [
             'wheel', 
@@ -149,6 +163,15 @@ node 'machined' {
     include dm_employees
     include alt_umask
 
+    network_config { 'ens192':
+        ensure  => 'present',
+        family  => 'inet',
+        method  => 'dhcp',
+        onboot  => 'true',
+        hotplug => 'true',
+        netmask => '255.255.255.0',
+    }
+
     class { 'pam':
         allowed_users => [
             'wheel', 
@@ -165,6 +188,15 @@ node machinee {
     include cron_puppet
     include dm_employees
     include alt_umask
+
+    network_config { 'ens192':
+        ensure  => 'present',
+        family  => 'inet',
+        method  => 'dhcp',
+        onboot  => 'true',
+        hotplug => 'true',
+        netmask => '255.255.255.0',
+    }
 
     class { 'pam':
         pam_password_lines => [
