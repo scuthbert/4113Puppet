@@ -35,10 +35,10 @@ node 'machinea' {
     }
 
     dhcp::pool{ 'dundermifflin.com':
-  	network => '100.64.18.0',
-  	mask    => '255.255.255.0',
-  	range   => '100.64.18.6 100.64.18.255',
-  	gateway => '100.64.0.254',
+        network => '100.64.18.0',
+        mask    => '255.255.255.0',
+        range   => '100.64.18.6 100.64.18.255',
+        gateway => '100.64.0.254',
     }
 
     dhcp::host { 'carriage':
@@ -46,12 +46,34 @@ node 'machinea' {
         ip      => '100.64.18.2',
     }
 
+    dhcp::host { 'platen':
+        mac     => '00:50:56:b4:7d:19',
+        ip      => '100.64.18.3',
+    }
+
+    dhcp::host { 'chase':
+        mac     => '00:50:56:b4:19:f4',
+        ip      => '100.64.18.4',
+    }
+
+    dhcp::host { 'roller':
+        mac     => '00:50:56:b4:91:85',
+        ip      => '10.21.32.2',
+    }
 
 }
 
 node 'machineb' {
     include cron_puppet
     include dm_employees
+
+    network_config { 'ens192':
+        ensure  => 'present',
+        family  => 'inet',
+        method  => 'dhcp',
+        onboot  => 'true',
+        hotplug => 'true',
+    }
 
     class { 'pam':
         allowed_users => [
