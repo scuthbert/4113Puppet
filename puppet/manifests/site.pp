@@ -51,7 +51,7 @@ node 'machinea' {
         service_ensure => running,
         nameservers  => ['8.8.8.8'],
         ntpservers   => ['us.pool.ntp.org'],
-        interfaces   => ['ens224', 'ens256'],
+        interfaces   => ['ens224'],#, 'ens256'],
     }
 
     dhcp::pool{ 'dundermifflin.com':
@@ -61,12 +61,12 @@ node 'machinea' {
         gateway => '100.64.0.254',
     }
 
-    dhcp::pool{ 'dundermifflin.com':
-        network => '10.21.32.1',
-        mask    => '255.255.255.0',
-        range   => '10.21.32.3 10.21.32.1',
-        gateway => '100.64.0.254',
-    }
+    # dhcp::pool{ 'dundermifflin.com':
+    #     network => '10.21.32.1',
+    #     mask    => '255.255.255.0',
+    #     range   => '10.21.32.3 10.21.32.1',
+    #     gateway => '100.64.0.254',
+    # }
 
     dhcp::host { 'carriage':
         mac     => '00:50:56:b4:d2:15',
