@@ -235,7 +235,6 @@ node machinef {
         command => "cd /etc/puppetlabs; echo 'WOW'",
         user    => root,
         minute  => '*/30',
-        require => File['post-hook'],
     }
 
     sudo::conf { 'web-httpd':
