@@ -24,20 +24,47 @@ node 'machinea' {
         hotplug   => 'true',
     }
 
+    network_config { 'ens224':
+        ensure    => 'present',
+        family    => 'inet',
+        ipaddress => '100.64.18.1',
+        method    => 'static',
+        netmask   => '255.255.255.0',
+        onboot    => 'true',
+        hotplug   => 'true',
+    }
+
+    network_config { 'ens256':
+        ensure    => 'present',
+        family    => 'inet',
+        ipaddress => '10.21.32.1',
+        method    => 'static',
+        netmask   => '255.255.255.0',
+        onboot    => 'true',
+        hotplug   => 'true',
+    }
+
     class { 'dhcp':
-	dnsdomain      => [
+	    dnsdomain      => [
     	    'dundermifflin.com',
     	],
         service_ensure => running,
         nameservers  => ['8.8.8.8'],
         ntpservers   => ['us.pool.ntp.org'],
-        interfaces   => ['ens192'],
+        interfaces   => ['ens224', 'ens256'],
     }
 
     dhcp::pool{ 'dundermifflin.com':
         network => '100.64.18.0',
         mask    => '255.255.255.0',
         range   => '100.64.18.6 100.64.18.255',
+        gateway => '100.64.0.254',
+    }
+
+    dhcp::pool{ 'dundermifflin.com':
+        network => '10.21.32.1',
+        mask    => '255.255.255.0',
+        range   => '10.21.32.3 10.21.32.1',
         gateway => '100.64.0.254',
     }
 
