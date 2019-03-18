@@ -61,13 +61,6 @@ node 'machinea' {
         gateway => '100.64.0.254',
     }
 
-    # dhcp::pool{ 'dundermifflin.com':
-    #     network => '10.21.32.1',
-    #     mask    => '255.255.255.0',
-    #     range   => '10.21.32.3 10.21.32.1',
-    #     gateway => '100.64.0.254',
-    # }
-
     dhcp::host { 'carriage':
         mac     => '00:50:56:b4:d2:15',
         ip      => '100.64.18.2',
@@ -81,16 +74,23 @@ node 'machinea' {
     dhcp::host { 'chase':
         mac     => '00:50:56:b4:19:f4',
         ip      => '100.64.18.4',
+    }    
+    
+    dhcp::host { 'saddle':
+        mac     => '00:50:56:b4:a3:fb',
+        ip      => '100.64.18.5',
+    }
+
+    dhcp::pool{ 'int.dundermifflin.com':
+        network => '10.21.32.1',
+        mask    => '255.255.255.0',
+        range   => '10.21.32.3 10.21.32.1',
+        gateway => '100.64.18.1',
     }
 
     dhcp::host { 'roller':
         mac     => '00:50:56:b4:91:85',
         ip      => '10.21.32.2',
-    }
-
-    dhcp::host { 'saddle':
-        mac     => '00:50:56:A0:78:39',
-        ip      => '100.64.18.5',
     }
 }
 
