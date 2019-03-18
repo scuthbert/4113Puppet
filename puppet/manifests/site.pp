@@ -82,7 +82,7 @@ node 'machinea' {
     }
 
     dhcp::pool{ 'int.dundermifflin.com':
-        network => '10.21.32.1',
+        network => '10.21.32.0',
         mask    => '255.255.255.0',
         range   => '10.21.32.3 10.21.32.1',
         gateway => '100.64.18.1',
