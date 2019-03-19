@@ -58,7 +58,7 @@ node 'machinea' {
         network => '100.64.18.0',
         mask    => '255.255.255.0',
         range   => '100.64.18.6 100.64.18.255',
-        gateway => '100.64.0.254',
+        gateway => '100.64.18.1',
     }
 
     dhcp::host { 'carriage':
