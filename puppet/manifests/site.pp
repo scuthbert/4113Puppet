@@ -230,6 +230,16 @@ node machinef {
         ],
     }
 
+    package { 'httpd':
+        ensure => 'installed',
+    }
+
+    service { 'webserver':
+        name       => 'httpd',
+        ensure     => 'true',
+        enable     => 'true',
+    }
+
     cron { 'sync-web':
         ensure  => present,
         command => "cd /etc/puppetlabs; echo 'WOW'",
