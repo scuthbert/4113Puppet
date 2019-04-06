@@ -14,4 +14,5 @@ git checkout origin/master -ft
 # Run Puppet initially to set up the auto-deploy mechanism
 /opt/puppetlabs/bin/puppet module install saz-sudo
 /opt/puppetlabs/bin/puppet module install ghoneycutt-pam
+/opt/puppetlabs/bin/puppet module install ajjahn/dns
 /opt/puppetlabs/bin/puppet apply /etc/puppetlabs/puppet/manifests/site.pp
