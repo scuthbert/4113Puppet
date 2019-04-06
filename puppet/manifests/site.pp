@@ -162,7 +162,7 @@ node 'machined' {
     include cron_puppet
     include dm_employees
     include alt_umask
-    include dns::server
+    #include dns::server
 
     network_config { 'ens192':
         ensure  => 'present',
@@ -173,48 +173,58 @@ node 'machined' {
         netmask => '255.255.255.0',
     }
 
-    dns::server::options { '/etc/bind/named.conf.options':
-        forwarders => [ '8.8.8.8', '8.8.4.4' ]
+    package { 'bind':
+        ensure => 'installed',
     }
 
-    dns::zone { 'dundermifflin.com':
-        soa         => 'chase.dundermifflin.com',
-        soa_email   => 'router.dundermifflin.com',
-        nameservers => ['chase']
+    service { 'dns':
+        name       => 'named',
+        ensure     => 'true',
+        enable     => 'true',
     }
 
-    dns::record::a {        
-        'router':
-            zone => 'dundermifflin.com',
-            data => ['100.64.18.1'],
-            ptr  => true;
-        'carriage':
-            zone => 'dundermifflin.com',
-            data => ['100.64.18.2'],
-            ptr  => true;
-        'platen':
-            zone => 'dundermifflin.com',
-            data => ['100.64.18.3'],
-            ptr  => true;
-        'chase':
-            zone => 'dundermifflin.com',
-            data => ['100.64.18.4'],
-            ptr  => true;
-        'roller':
-            zone => 'dundermifflin.com',
-            data => ['10.21.32.2'],
-            ptr  => true;
-        'saddle':
-            zone => 'dundermifflin.com',
-            data => ['100.64.18.5'],
-            ptr  => true;
-    }
+    # dns::server::options { '/etc/bind/named.conf.options':
+    #     forwarders => [ '8.8.8.8', '8.8.4.4' ]
+    # }
 
-    dns::record::cname { 
-        'www':
-            zone => 'dundermifflin.com',
-            data => 'carriage.dundermifflin.com',
-    }
+    # dns::zone { 'dundermifflin.com':
+    #     soa         => 'chase.dundermifflin.com',
+    #     soa_email   => 'router.dundermifflin.com',
+    #     nameservers => ['chase']
+    # }
+
+    # dns::record::a {        
+    #     'router':
+    #         zone => 'dundermifflin.com',
+    #         data => ['100.64.18.1'],
+    #         ptr  => true;
+    #     'carriage':
+    #         zone => 'dundermifflin.com',
+    #         data => ['100.64.18.2'],
+    #         ptr  => true;
+    #     'platen':
+    #         zone => 'dundermifflin.com',
+    #         data => ['100.64.18.3'],
+    #         ptr  => true;
+    #     'chase':
+    #         zone => 'dundermifflin.com',
+    #         data => ['100.64.18.4'],
+    #         ptr  => true;
+    #     'roller':
+    #         zone => 'dundermifflin.com',
+    #         data => ['10.21.32.2'],
+    #         ptr  => true;
+    #     'saddle':
+    #         zone => 'dundermifflin.com',
+    #         data => ['100.64.18.5'],
+    #         ptr  => true;
+    # }
+
+    # dns::record::cname { 
+    #     'www':
+    #         zone => 'dundermifflin.com',
+    #         data => 'carriage.dundermifflin.com',
+    # }
 
 
     class { 'pam':
