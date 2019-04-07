@@ -105,7 +105,13 @@ node 'machineb' {
         onboot  => 'true',
         hotplug => 'true',
         netmask => '255.255.255.0',
-        peerdns => 'true',
+    }
+
+    file_line { 'peerdns':
+        ensure => present,
+        path   => '/etc/sysconfig/network-scripts/ifcfg-ens192',
+        line   => 'PEERDNS=yes',
+        match  => 'PEERDNS=no',
     }
 
     class { 'pam':
@@ -140,6 +146,12 @@ node 'machinec' {
         netmask => '255.255.255.0',
     }
 
+    file_line { 'peerdns':
+        ensure => present,
+        path   => '/etc/sysconfig/network-scripts/ifcfg-ens192',
+        line   => 'PEERDNS=yes',
+        match  => 'PEERDNS=no',
+    }
 
     class { 'pam':
         allowed_users => [
@@ -172,6 +184,13 @@ node 'machined' {
         onboot  => 'true',
         hotplug => 'true',
         netmask => '255.255.255.0',
+    }
+
+    file_line { 'peerdns':
+        ensure => present,
+        path   => '/etc/sysconfig/network-scripts/ifcfg-ens192',
+        line   => 'PEERDNS=yes',
+        match  => 'PEERDNS=no',
     }
 
     package { 'bind':
@@ -254,6 +273,13 @@ node machinee {
         netmask => '255.255.255.0',
     }
 
+    file_line { 'peerdns':
+        ensure => present,
+        path   => '/etc/sysconfig/network-scripts/ifcfg-ens192',
+        line   => 'PEERDNS=yes',
+        match  => 'PEERDNS=no',
+    }
+
     class { 'pam':
         pam_password_lines => [
             'password    requisite      pam_pwquality.so try_first_pass local_users_only retry=3 minlen=10 dcredit=-2 ucredit=-2 minclass=4 authtok_type=',
@@ -272,6 +298,13 @@ node machinef {
         onboot  => 'true',
         hotplug => 'true',
         netmask => '255.255.255.0',
+    }
+
+    file_line { 'peerdns':
+        ensure => present,
+        path   => '/etc/sysconfig/network-scripts/ifcfg-ens192',
+        line   => 'PEERDNS=yes',
+        match  => 'PEERDNS=no',
     }
 
     class { 'pam':
