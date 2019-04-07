@@ -119,6 +119,7 @@ node 'machineb' {
         path   => '/etc/resolv.conf',
         line   => 'nameserver 100.64.18.4',
         match  => 'nameserver*',
+        multiple => true,
     }
 
     class { 'pam':
