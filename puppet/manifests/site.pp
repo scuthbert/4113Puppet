@@ -105,6 +105,7 @@ node 'machineb' {
         onboot  => 'true',
         hotplug => 'true',
         netmask => '255.255.255.0',
+        peerdns => 'true',
     }
 
     class { 'pam':
