@@ -110,8 +110,15 @@ node 'machineb' {
     file_line { 'peerdns':
         ensure => present,
         path   => '/etc/sysconfig/network-scripts/ifcfg-ens192',
-        line   => 'PEERDNS=yes',
-        match  => 'PEERDNS=no',
+        line   => 'PEERDNS=no',
+        match  => 'PEERDNS=yes',
+    }
+
+    file_line { 'peerdns':
+        ensure => present,
+        path   => '/etc/resolv.conf',
+        line   => 'nameserver 100.64.18.4',
+        match  => 'nameserver*',
     }
 
     class { 'pam':
