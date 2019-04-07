@@ -114,7 +114,7 @@ node 'machineb' {
         match  => 'PEERDNS=yes',
     }
 
-    file_line { 'peerdns':
+    file_line { 'namesrv':
         ensure => present,
         path   => '/etc/resolv.conf',
         line   => 'nameserver 100.64.18.4',
