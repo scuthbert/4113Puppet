@@ -160,6 +160,13 @@ node 'machinec' {
         match  => 'PEERDNS=no',
     }
 
+    file_line { 'secondarypeerdns':
+        ensure => present,
+        path   => '/etc/sysconfig/network-scripts/ifcfg-eno16780032',
+        line   => 'PEERDNS=no',
+        match  => 'PEERDNS=yes',
+    }
+
     class { 'pam':
         allowed_users => [
             'wheel', 
@@ -198,6 +205,13 @@ node 'machined' {
         path   => '/etc/sysconfig/network-scripts/ifcfg-ens192',
         line   => 'PEERDNS=yes',
         match  => 'PEERDNS=no',
+    }
+
+    file_line { 'secondarypeerdns':
+        ensure => present,
+        path   => '/etc/sysconfig/network-scripts/ifcfg-eno16780032',
+        line   => 'PEERDNS=no',
+        match  => 'PEERDNS=yes',
     }
 
     package { 'bind':
@@ -287,6 +301,13 @@ node machinee {
         match  => 'PEERDNS=no',
     }
 
+    file_line { 'secondarypeerdns':
+        ensure => present,
+        path   => '/etc/sysconfig/network-scripts/ifcfg-eno16780032',
+        line   => 'PEERDNS=no',
+        match  => 'PEERDNS=yes',
+    }
+
     class { 'pam':
         pam_password_lines => [
             'password    requisite      pam_pwquality.so try_first_pass local_users_only retry=3 minlen=10 dcredit=-2 ucredit=-2 minclass=4 authtok_type=',
@@ -312,6 +333,13 @@ node machinef {
         path   => '/etc/sysconfig/network-scripts/ifcfg-ens192',
         line   => 'PEERDNS=yes',
         match  => 'PEERDNS=no',
+    }
+
+    file_line { 'secondarypeerdns':
+        ensure => present,
+        path   => '/etc/sysconfig/network-scripts/ifcfg-eno16780032',
+        line   => 'PEERDNS=no',
+        match  => 'PEERDNS=yes',
     }
 
     class { 'pam':
