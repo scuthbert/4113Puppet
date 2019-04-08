@@ -342,6 +342,13 @@ node machinef {
         match  => 'PEERDNS=yes',
     }
 
+    file_line { 'disableifup':
+        ensure => present,
+        path   => '/etc/sysconfig/network-scripts/ifup-post',
+        line   => 'if ! is_false "{$PEER*',
+        match  => 'if false; then',
+    }
+
     class { 'pam':
         allowed_users => [
             'wheel', 
