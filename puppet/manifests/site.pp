@@ -44,6 +44,14 @@ node 'machinea' {
         hotplug   => 'true',
     }
 
+    file_line { 'dnssetup':
+        ensure => present,
+        path   => '/etc/resolv.conf',
+        line   => 'nameserver*',
+        match  => 'nameserver 100.64.18.2',
+        multiple => 'true',
+    }
+
     class { 'dhcp':
 	    dnsdomain      => [
     	    'dundermifflin.com',
@@ -114,12 +122,12 @@ node 'machineb' {
         match  => 'PEERDNS=no',
     }
 
-    # file_line { 'secondarypeerdns':
-    #     ensure => present,
-    #     path   => '/etc/sysconfig/network-scripts/ifcfg-eno16780032',
-    #     line   => 'PEERDNS=no',
-    #     match  => 'PEERDNS=yes',
-    # }
+    file_line { 'disableifup':
+        ensure => present,
+        path   => '/etc/sysconfig/network-scripts/ifup-post',
+        line   => 'if false; then',
+        match  => 'if ! is_false "{$PEER*',
+    }
 
     class { 'pam':
         allowed_users => [
@@ -160,12 +168,12 @@ node 'machinec' {
         match  => 'PEERDNS=no',
     }
 
-    # file_line { 'secondarypeerdns':
-    #     ensure => present,
-    #     path   => '/etc/sysconfig/network-scripts/ifcfg-eno16780032',
-    #     line   => 'PEERDNS=no',
-    #     match  => 'PEERDNS=yes',
-    # }
+    file_line { 'disableifup':
+        ensure => present,
+        path   => '/etc/sysconfig/network-scripts/ifup-post',
+        line   => 'if false; then',
+        match  => 'if ! is_false "{$PEER*',
+    }
 
     class { 'pam':
         allowed_users => [
@@ -207,12 +215,12 @@ node 'machined' {
         match  => 'PEERDNS=no',
     }
 
-    # file_line { 'secondarypeerdns':
-    #     ensure => present,
-    #     path   => '/etc/sysconfig/network-scripts/ifcfg-eno16780032',
-    #     line   => 'PEERDNS=no',
-    #     match  => 'PEERDNS=yes',
-    # }
+    file_line { 'disableifup':
+        ensure => present,
+        path   => '/etc/sysconfig/network-scripts/ifup-post',
+        line   => 'if false; then',
+        match  => 'if ! is_false "{$PEER*',
+    }
 
     package { 'bind':
         ensure => 'installed',
@@ -301,12 +309,12 @@ node machinee {
         match  => 'PEERDNS=no',
     }
 
-    # file_line { 'secondarypeerdns':
-    #     ensure => present,
-    #     path   => '/etc/sysconfig/network-scripts/ifcfg-eno16780032',
-    #     line   => 'PEERDNS=no',
-    #     match  => 'PEERDNS=yes',
-    # }
+    file_line { 'disableifup':
+        ensure => present,
+        path   => '/etc/sysconfig/network-scripts/ifup-post',
+        line   => 'if false; then',
+        match  => 'if ! is_false "{$PEER*',
+    }
 
     class { 'pam':
         pam_password_lines => [
@@ -334,13 +342,6 @@ node machinef {
         line   => 'PEERDNS=yes',
         match  => 'PEERDNS=no',
     }
-
-    # file_line { 'secondarypeerdns':
-    #     ensure => present,
-    #     path   => '/etc/sysconfig/network-scripts/ifcfg-eno16780032',
-    #     line   => 'PEERDNS=no',
-    #     match  => 'PEERDNS=yes',
-    # }
 
     file_line { 'disableifup':
         ensure => present,
