@@ -10,4 +10,12 @@ class cron_puppet {
         owner   => root,
         group   => root,
     }
+    file { 'dundermifflin.com':
+        ensure  => file,
+        path    => '/etc/dundermifflin.com',
+        source  => '/etc/puppetlabs/code/modules/dns_puppet/files/dundermifflin.com',
+        mode    => "0644",
+        owner   => root,
+        group   => root,
+    }
 }
