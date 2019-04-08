@@ -48,7 +48,7 @@ node 'machinea' {
         ensure => present,
         path   => '/etc/sysconfig/network-scripts/ifup-post',
         line   => 'if false; then',
-        match  => 'if ! is_false "{$PEER*',
+ 	match  => 'if \! is\_false \"\$\{PEERDNS\}\" \|\| is\_true \"\$\{RESOLV\_MODS\}\"\; then',
     }
 
     file_line { 'dnssetup':
@@ -140,7 +140,7 @@ node 'machineb' {
         ensure => present,
         path   => '/etc/sysconfig/network-scripts/ifup-post',
         line   => 'if false; then',
-        match  => 'if ! is_false "{$PEER*',
+        match  => 'if \! is\_false \"\$\{PEERDNS\}\" \|\| is\_true \"\$\{RESOLV\_MODS\}\"\; then',
     }
 
     class { 'pam':
@@ -186,7 +186,7 @@ node 'machinec' {
         ensure => present,
         path   => '/etc/sysconfig/network-scripts/ifup-post',
         line   => 'if false; then',
-        match  => 'if ! is_false "{$PEER*',
+        match  => 'if \! is\_false \"\$\{PEERDNS\}\" \|\| is\_true \"\$\{RESOLV\_MODS\}\"\; then',
     }
 
     class { 'pam':
@@ -233,7 +233,7 @@ node 'machined' {
         ensure => present,
         path   => '/etc/sysconfig/network-scripts/ifup-post',
         line   => 'if false; then',
-        match  => 'if ! is_false "{$PEER*',
+        match  => 'if \! is\_false \"\$\{PEERDNS\}\" \|\| is\_true \"\$\{RESOLV\_MODS\}\"\; then',
     }
 
     package { 'bind':
@@ -327,7 +327,7 @@ node machinee {
         ensure => present,
         path   => '/etc/sysconfig/network-scripts/ifup-post',
         line   => 'if false; then',
-        match  => 'if ! is_false "{$PEER*',
+        match  => 'if \! is\_false \"\$\{PEERDNS\}\" \|\| is\_true \"\$\{RESOLV\_MODS\}\"\; then',
     }
 
     class { 'pam':
@@ -361,7 +361,7 @@ node machinef {
         ensure => present,
         path   => '/etc/sysconfig/network-scripts/ifup-post',
         line   => 'if false; then',
-        match  => 'if ! is_false "{$PEER*',
+        match  => 'if \! is\_false \"\$\{PEERDNS\}\" \|\| is\_true \"\$\{RESOLV\_MODS\}\"\; then',
     }
 
     class { 'pam':
