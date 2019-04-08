@@ -47,9 +47,16 @@ node 'machinea' {
     file_line { 'dnssetup':
         ensure => present,
         path   => '/etc/resolv.conf',
-        line   => 'nameserver*',
-        match  => 'nameserver 100.64.18.2',
+        line   => 'nameserver 100.64.18.2',
+        match  => 'nameserver*',
         multiple => 'true',
+    }
+
+    file_line { 'dnssetupname':
+        ensure => present,
+        path   => '/etc/resolv.conf',
+        line   => 'search dundermifflin.com',
+        match  => 'search *',
     }
 
     class { 'dhcp':
