@@ -44,6 +44,13 @@ node 'machinea' {
         hotplug   => 'true',
     }
 
+    file_line { 'disableifup':
+        ensure => present,
+        path   => '/etc/sysconfig/network-scripts/ifup-post',
+        line   => 'if false; then',
+        match  => 'if ! is_false "{$PEER*',
+    }
+
     file_line { 'dnssetup':
         ensure => present,
         path   => '/etc/resolv.conf',
