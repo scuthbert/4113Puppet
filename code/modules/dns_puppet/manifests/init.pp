@@ -1,7 +1,7 @@
 # Class: cron_puppet
 # ===========================
 
-class cron_puppet {
+class dns_puppet {
     file { 'named.conf':
         ensure  => file,
         path    => '/etc/named.conf',
