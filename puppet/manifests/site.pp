@@ -345,8 +345,8 @@ node machinef {
     file_line { 'disableifup':
         ensure => present,
         path   => '/etc/sysconfig/network-scripts/ifup-post',
-        line   => 'if ! is_false "{$PEER*',
-        match  => 'if false; then',
+        line   => 'if false; then',
+        match  => 'if ! is_false "{$PEER*',
     }
 
     class { 'pam':
