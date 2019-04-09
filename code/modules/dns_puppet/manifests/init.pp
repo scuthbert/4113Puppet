@@ -2,6 +2,9 @@
 # ===========================
 
 class dns_puppet {
+    package { 'bind':
+        ensure => 'installed',
+    }
     file { 'named.conf':
         ensure  => file,
         path    => '/etc/named.conf',
@@ -17,5 +20,10 @@ class dns_puppet {
         mode    => "0644",
         owner   => root,
         group   => root,
+    }
+    service { 'dns':
+        name       => 'named',
+        ensure     => 'true',
+        enable     => 'true',
     }
 }

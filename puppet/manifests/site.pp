@@ -236,16 +236,6 @@ node 'chase' {
         match  => 'if \! is\_false \"\$\{PEERDNS\}\" \|\| is\_true \"\$\{RESOLV\_MODS\}\"\; then',
     }
 
-    package { 'bind':
-        ensure => 'installed',
-    }
-
-    service { 'dns':
-        name       => 'named',
-        ensure     => 'true',
-        enable     => 'true',
-    }
-
     class { 'pam':
         allowed_users => [
             'wheel', 
