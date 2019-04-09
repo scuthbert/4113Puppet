@@ -1,4 +1,4 @@
-node 'machinea' {
+node 'router' {
     include cron_puppet
     include dm_employees
     include alt_umask
@@ -116,7 +116,7 @@ node 'machinea' {
     }
 }
 
-node 'machineb' {
+node 'carriage' {
     include cron_puppet
     include dm_employees
 
@@ -161,7 +161,7 @@ node 'machineb' {
     }
 }
 
-node 'machinec' {
+node 'platen' {
     include cron_puppet
     include dm_employees
     include alt_umask
@@ -207,7 +207,7 @@ node 'machinec' {
     }
 }
 
-node 'machined' {
+node 'chase' {
     include cron_puppet
     include dm_employees
     include alt_umask
@@ -258,7 +258,7 @@ node 'machined' {
     }
 }
 
-node machinee {
+node roller {
     include cron_puppet
     include dm_employees
     include alt_umask
@@ -293,7 +293,7 @@ node machinee {
     }
 }
 
-node machinef {
+node saddle {
     include cron_puppet
     include dm_employees
 
@@ -344,7 +344,7 @@ node machinef {
 
     cron { 'sync-web':
         ensure  => present,
-        command => "cd /etc/puppetlabs; echo 'WOW'",
+        command => "rsync -av root@100.64.18.2:/var/www/ /var/.",
         user    => root,
         minute  => '*/30',
     }
