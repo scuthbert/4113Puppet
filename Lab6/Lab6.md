@@ -61,6 +61,8 @@ And with proper nameservers set while VPN'd in:
 
 ### Machine D (chase):
 
+Machine D was very similar: it also required the steps to disable firewalld, and the same icmp/ssh rules. DNS traffic is either udp or tcp, but occurs on port 53.
+
 ```
 # Setup iptables
 systemctl stop firewalld
@@ -101,11 +103,19 @@ iptables -A INPUT -p udp --dport 53 -m conntrack --ctstate NEW,ESTABLISHED -j AC
 service iptables save
 ```
 
+Here's the output from iptables and nmap:
+
 ![saddle](./iptablesd.png)
 
 ![saddle](./nmapd.png)
 
+Additionally, we can test resolving dns:
+
+![dnsd](./dnsd.png)
+
 ### Machine C (platen):
+
+Platen required only ftp traffic on the inbound rules: tcp on port 21. However, it required outbound rules for ICMP, SSH, DNS, FTP, and HTTP/S traffic to any host. 
 
 ```
 # Setup iptables
@@ -173,6 +183,8 @@ service iptables save
 
 ### Machine E
 
+Machine E just requires CIFS and SMB from 10.21.32.0/24.
+
 ```
 # Setup iptables
 systemctl stop firewalld
@@ -214,9 +226,23 @@ service iptables save
 
 ![saddle](./iptablese.png)
 
+For this NMAP, it was important to do from the 10.21.32.0/24 network (aka from machine a)
+
 ![saddle](./nmape.png)
 
 ### Machine A
+
+Machine A only required ssh on the input chain. However, the forward chain was significantly more complicated.
+
+For outbound from B/D/E/F, I allowed all traffic as each of their default policies is allow.
+
+For SSH on BCDF, I only allowed traffic destined for 100.64.18.0/29 {100.64.18.1-100.64.18.6}, or coming from that same range. For E, we only allow the 10.21.32.0/24  subnet to access E.
+
+For DNS,  I allowed traffic destined for D.
+
+For inbound to E, I only allowed CIFS and SMB as above.
+
+For inboud to C, only ftp from 100.64.0.0/16 is allowed.
 
 ```
 # Allow all loopback traffic
@@ -237,23 +263,66 @@ iptables -A INPUT -p icmp --icmp-type destination-unreachable -j ACCEPT
 iptables -P INPUT DROP
 #iptables -P FORWARD DROP
 
+# SSH Rules local
+iptables -A INPUT -p tcp -s 100.64.0.0/16 --dport 22 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+iptables -A INPUT -p tcp -s 10.21.32.0/24 --dport 22 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+iptables -A INPUT -p tcp -s 198.18.0.0/16 --dport 22 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+
 # Enable http/https
 iptables -A FORWARD -p tcp --dport 80 -d 100.64.18.2 -j ACCEPT
 iptables -A FORWARD -p tcp --dport 443 -d 100.64.18.2 -j ACCEPT
 iptables -A FORWARD -p tcp --dport 80 -d 100.64.18.5 -j ACCEPT
 iptables -A FORWARD -p tcp --dport 443 -d 100.64.18.5 -j ACCEPT
 
-# Allow dns traffic
+# Outbound B/D/E/F
+iptables -A FORWARD -s 100.64.18.2 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -s 100.64.18.4 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -s 100.64.18.5 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -s 10.21.32.2 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+
+# SSH Rules B,C,D,F
+iptables -A FORWARD -p tcp -s 100.64.0.0/16 --dport 22 -d 100.64.18.0/29 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -p tcp -s 10.21.32.0/24 --dport 22 -d 100.64.18.0/29 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -p tcp -s 198.18.0.0/16 --dport 22 -d 100.64.18.0/29 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+
+# SSH Rule E
+iptables -A FORWARD -p tcp -s 10.21.32.0/24 --dport 22 -d 10.21.32.2 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+
+# DNS Rules for D
 iptables -A FORWARD -p tcp --dport 53 -d 100.64.18.4 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
 iptables -A FORWARD -p udp --dport 53 -d 100.64.18.4 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
 
+# Allow CIFS and SMB from local network to E
+iptables -A FORWARD -p tcp -s 10.21.32.0/24 --dport 135 -d 10.21.32.2 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -p tcp -s 10.21.32.0/24 --dport 445 -d 10.21.32.2 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -p udp -s 10.21.32.0/24 --dport 137:139 -d 10.21.32.2 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
 
-# TODO: SSH, FTP, CIFS, SMB forwarding for B/C/D/E
-# TODO: Block facebook
+# Allow inbound ftp to C
+iptables -A FORWARD -p tcp -s 100.64.0.0/16 --dport 21 -d 100.64.18.3 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
 
-# SSH Rules
-iptables -A INPUT -p tcp -s 100.64.0.0/16 --dport 22 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
-iptables -A INPUT -p tcp -s 10.21.32.0/24 --dport 22 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
-iptables -A INPUT -p tcp -s 198.18.0.0/16 --dport 22 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+# Allow C to initiate ssh connections outward
+iptables -A FORWARD -p tcp --dport 22 -s 100.64.18.3 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+
+# Allow C to query dns
+iptables -A FORWARD -p tcp --dport 53 -s 100.64.18.3 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -p udp --dport 53 -s 100.64.18.3 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+
+# Allow outward http/https traffic from C
+iptables -A FORWARD -p tcp --dport 80 -s 100.64.18.3 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -p tcp --dport 443 -s 100.64.18.3 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+
+# Allow outward ftp
+iptables -A FORWARD -p tcp --dport 21 -s 100.64.18.3 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+
+# Block facebook
+iptables -A FORWARD -p tcp --dport 80 -s 157.240.28.35 -m conntrack --ctstate NEW,ESTABLISHED -j DROP
+iptables -A FORWARD -p tcp --dport 443 -s 157.240.28.35 -m conntrack --ctstate NEW,ESTABLISHED -j DROP
+
+# Block facebook on A
+iptables -A OUTPUT -p tcp --dport 80 -s 157.240.28.35 -m conntrack --ctstate NEW,ESTABLISHED -j DROP
+iptables -A OUTPUT -p tcp --dport 443 -s 157.240.28.35 -m conntrack --ctstate NEW,ESTABLISHED -j DROP
+
+
+
 ```
 
