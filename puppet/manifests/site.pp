@@ -291,7 +291,7 @@ node saddle {
         ensure  => 'present',
         family  => 'inet',
         method  => 'static',
-	address => '100.64.118.5',
+	ipaddress => '100.64.118.5',
         onboot  => 'true',
         hotplug => 'true',
         netmask => '255.255.255.0',
