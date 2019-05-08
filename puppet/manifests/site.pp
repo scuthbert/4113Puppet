@@ -290,7 +290,8 @@ node saddle {
     network_config { 'ens192':
         ensure  => 'present',
         family  => 'inet',
-        method  => 'dhcp',
+        method  => 'static',
+	address => '100.64.118.5',
         onboot  => 'true',
         hotplug => 'true',
         netmask => '255.255.255.0',
@@ -299,7 +300,7 @@ node saddle {
     file_line { 'peerdns':
         ensure => present,
         path   => '/etc/sysconfig/network-scripts/ifcfg-ens192',
-        line   => 'PEERDNS=yes',
+        line   => 'PEERDNS=no',
         match  => 'PEERDNS=no',
     }
 
@@ -334,7 +335,7 @@ node saddle {
 
     cron { 'sync-web':
         ensure  => present,
-        command => "rsync -av root@100.64.18.2:/var/www/ /var/.",
+        command => "rsync -av root@100.64.118.2:/var/www/ /var/.",
         user    => root,
         minute  => '*/30',
     }
